@@ -24,23 +24,9 @@ const $title = document.querySelector("h1");
 const $backGround = document.querySelector("#stopwatch")
 let fullTime;
 let numPeriods = 0;
-
 // cycle: 0 study, 1 break, 2 study, 3 break, 4 study, 5 break, 6 study, 7 break, cycle repeats at 8
-// if (numPeriods == 8) {
-//     fullTime = 3 * 1000;
-//     $title.textContent = "longBreak";
-// } else if (numPeriods % 2 == 0)  {
-//     fullTime = 6 * 1000;
-//     $title.textContent = "Pomofocus";
-// } else {
-//     fullTime = 2 * 1000;
-//     $title.textContent = "shortBreak";
-// }
-
 let stopId;
-
 let message;
-
 
 function startPomo() {
     if (running) {
@@ -48,14 +34,19 @@ function startPomo() {
         return;
     }
     if (numPeriods == 7) {
-        fullTime = 2 * 1000;
+        fullTime = 15 * 60000;
         $title.textContent = "longBreak";
+        $backGround.style.backgroundColor = "#AA0000"
     } else if (numPeriods % 2 == 0)  {
-        fullTime = 3 * 1000;
-        $title.textContent = "Pomofocus";
+        fullTime = 25 * 60000;
+        const numPomos = (numPeriods / 2) + 1;
+        $title.textContent = `Pomodoro ${numPomos}`;
+        // light green
+        $backGround.style.backgroundColor = "#90EE90"
     } else {
-        fullTime = 1 * 1000;
+        fullTime = 5 * 60000;
         $title.textContent = "shortBreak";
+        $backGround.style.backgroundColor = "#7CB9E8"
     }
     running = true;
     paused = false;
@@ -67,16 +58,17 @@ function startPomo() {
 }
 function updatePomo() {
     timeLeft = fullTime - (pausedTime + Date.now() - startTime);
-    // minutesLeft = Math.floor(timeLeft / 60000);
-    // console.log(`timeLeft is ${timeLeft}, ${minutesLeft}`)
-    // secondsLeft = Math.floor((timeLeft - minutesLeft * 60000) / 1000);
-    // millisLeft = timeLeft - 60000 * minutesLeft - 1000 * secondsLeft;
-    // $minutes.textContent = minutesLeft;
-    // $seconds.textContent = secondsLeft;
-    // $millis.textContent = millisLeft;
-    $minutes.textContent = "tamint";
-    $seconds.textContent = "tami";
-    $millis.textContent = timeLeft;
+    minutesLeft = Math.floor(timeLeft / 60000);
+    secondsLeft = Math.floor((timeLeft - minutesLeft * 60000) / 1000);
+    millisLeft = timeLeft - (60000 * minutesLeft) - (1000 * secondsLeft);
+
+    millisLeft = (millisLeft + "").padEnd(3, 0)
+    secondsLeft = (secondsLeft + "").padEnd(2, 0);
+    minutesLeft = (minutesLeft + "").padEnd(2, 0);
+
+    $minutes.textContent = minutesLeft;
+    $seconds.textContent = secondsLeft;
+    $millis.textContent = millisLeft;
     console.log(numPeriods);
 
     stopId = requestAnimationFrame(updatePomo)
