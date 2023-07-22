@@ -20,29 +20,72 @@ let justReset = false;
 const $minutes = document.querySelector(".timer__minutes");
 const $seconds = document.querySelector(".timer__seconds");
 const $millis = document.querySelector(".timer__milliseconds");
-const fullTime = 25 * 60000;
+const $title = document.querySelector("h1");
+const $backGround = document.querySelector("#stopwatch")
+let fullTime;
+let numPeriods = 0;
+
+// cycle: 0 study, 1 break, 2 study, 3 break, 4 study, 5 break, 6 study, 7 break, cycle repeats at 8
+// if (numPeriods == 8) {
+//     fullTime = 3 * 1000;
+//     $title.textContent = "longBreak";
+// } else if (numPeriods % 2 == 0)  {
+//     fullTime = 6 * 1000;
+//     $title.textContent = "Pomofocus";
+// } else {
+//     fullTime = 2 * 1000;
+//     $title.textContent = "shortBreak";
+// }
+
 let stopId;
+
+let message;
+
+
 function startPomo() {
     if (running) {
         alert("already running");
         return;
     }
+    if (numPeriods == 7) {
+        fullTime = 2 * 1000;
+        $title.textContent = "longBreak";
+    } else if (numPeriods % 2 == 0)  {
+        fullTime = 3 * 1000;
+        $title.textContent = "Pomofocus";
+    } else {
+        fullTime = 1 * 1000;
+        $title.textContent = "shortBreak";
+    }
     running = true;
     paused = false;
+    justReset = false;
     startTime = Date.now();
     requestAnimationFrame(updatePomo)
+    console.log("request")
+
 }
 function updatePomo() {
-    
-    timeLeft = fullTime - (pausedTime + Date.now() - startTime) - 55000;
-    minutesLeft = Math.floor(timeLeft / 60000);
-    console.log(`timeLeft is ${timeLeft}, ${minutesLeft}`)
-    secondsLeft = Math.floor((timeLeft - minutesLeft * 60000) / 1000);
-    millisLeft = timeLeft - 60000 * minutesLeft - 1000 * secondsLeft;
-    $minutes.textContent = minutesLeft;
-    $seconds.textContent = secondsLeft;
-    $millis.textContent = millisLeft;
+    timeLeft = fullTime - (pausedTime + Date.now() - startTime);
+    // minutesLeft = Math.floor(timeLeft / 60000);
+    // console.log(`timeLeft is ${timeLeft}, ${minutesLeft}`)
+    // secondsLeft = Math.floor((timeLeft - minutesLeft * 60000) / 1000);
+    // millisLeft = timeLeft - 60000 * minutesLeft - 1000 * secondsLeft;
+    // $minutes.textContent = minutesLeft;
+    // $seconds.textContent = secondsLeft;
+    // $millis.textContent = millisLeft;
+    $minutes.textContent = "tamint";
+    $seconds.textContent = "tami";
+    $millis.textContent = timeLeft;
+    console.log(numPeriods);
+
     stopId = requestAnimationFrame(updatePomo)
+    if (timeLeft <= 100) {
+        numPeriods++;
+        console.log(numPeriods);
+        running = false;
+        cancelAnimationFrame(stopId);
+    }
 }
 
 function stopPomo() {
@@ -69,4 +112,13 @@ function resetPomo() {
     pausedTime = 0;
     running = false;
     paused = true;
+    // $minutes.textContent = fullTime / 60000;
+    // $seconds.textContent = "00";
+    // $millis.textContent = "000";
+    $minutes.textContent = "time";
+    $seconds.textContent = "to";
+    $millis.textContent = "due";
+    numPeriods = 0;
+    cancelAnimationFrame(stopId);
+
 }
