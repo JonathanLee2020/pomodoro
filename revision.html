@@ -5,18 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="revision.css">
-    <script src="app.js"></script>
 </head>
 <body>
     <div class="pomoApp">
         <h1>Pomodoro</h1>
-        <div class="timer">enter here</div>
+        <div class="timer">
+            <span class="timer__minutes">12</span>
+            <span class="timer__seconds">12</span>
+            <span class="timer__millis">12</span>
+        </div>
         <div class="button__list">
-            <button class="start">start</button>
-            <button class="stop">stop</button>
-            <button class="reset">reset</button>
+            <button class="start__button" onclick={startTimer()}>start</button>
+            <button class="stop__button" onclick={stopTimer()}>stop</button>
+            <button class="reset__button">reset</button>
         </div>
     </div>
     
 </body>
+<script src="revision.js"></script>
+
 </html>
