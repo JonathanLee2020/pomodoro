@@ -1,0 +1,22 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pomoApp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button__list {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+}
+
+button {
+    font-size: 32px;
+}
