@@ -18,6 +18,11 @@ body {
     gap: 16px;
 }
 
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
 button {
     font-size: 32px;
 }
